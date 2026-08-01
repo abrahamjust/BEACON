@@ -7,6 +7,7 @@ def calculator(expression: str) -> str:
         
     Mathematical expressions can include numbers, operators (+, -, *, /), and parentheses.
     """
+    print(f"[TOOL] Calculator: {expression}")
     try:
         result = eval(expression)
         return str(result)

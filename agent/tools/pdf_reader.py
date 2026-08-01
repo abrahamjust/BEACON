@@ -8,4 +8,5 @@ def pdf_reader(file_path: str):
     Use this tool when you need to analyze the content of a PDF document.
     """
     # Implementation for reading PDF would go here
+    print(f"[TOOL] PDF Reader: {file_path}")
     pass

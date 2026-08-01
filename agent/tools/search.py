@@ -26,8 +26,18 @@ def search_web(query: str):
     Use this tool when current information or internet
     search is required to answer the user's question.
     """
+    print(f"[TOOL] Search: {query}")
     try:
         results = tavily_search.invoke(query)
-        return results if results else "No results found."
+        formatted = []
+        for result in results:
+            formatted.append(
+                f"Title: {result['title']}\n"
+                f"Content: {result['content']}\n"
+                f"URL: {result['url']}"
+            )
+
+        formatted_results = "\n\n".join(formatted)
+        return formatted_results if formatted_results else "No results found."
     except Exception as e:
         return f"Error: {e}"
