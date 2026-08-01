@@ -5,5 +5,5 @@ from typing_extensions import TypedDict
 
 class AgentState(TypedDict):
     """Represents the state of an agent."""
-
+    conversation_id: str
     messages: Annotated[list[dict], add_messages]

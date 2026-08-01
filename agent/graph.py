@@ -7,6 +7,7 @@ from langgraph.graph import END, START
 from agent.tools.calculator import calculator
 from agent.tools.pdf_reader import pdf_reader
 from agent.tools.search import search_web
+from agent.events import EventType, create_event, log_event
 
 llm = get_llm()
 tools = [
@@ -20,9 +21,30 @@ graph_builder = StateGraph(AgentState)
 tool_node = ToolNode(tools)
 
 def chatbot(state: AgentState):
+
+    event = create_event(
+                EventType.LLM_REQUEST,
+                {
+                    "conversation_id": state["conversation_id"],
+                    "query": state["messages"][-1].content
+                }
+            )
+    log_event(event)
+
     response = llm_with_tools.invoke(state["messages"])
 
+    event = create_event(
+                EventType.LLM_RESPONSE,
+                {
+                    "conversation_id": state["conversation_id"],
+                    "response": response.content,
+                    "tool_calls": len(getattr(response, "tool_calls", []))
+                }
+            )
+    log_event(event)
+
     return {
+        "conversation_id": state["conversation_id"],
         "messages": [response]
     }
 
