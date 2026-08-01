@@ -26,7 +26,8 @@ def chatbot(state: AgentState):
                 EventType.LLM_REQUEST,
                 {
                     "conversation_id": state["conversation_id"],
-                    "query": state["messages"][-1].content
+                    "query": state["messages"][-1].type,
+                    "content_preview": str(state["messages"][-1].content)[:100]
                 }
             )
     log_event(event)

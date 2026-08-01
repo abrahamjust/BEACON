@@ -45,8 +45,12 @@ while True:
                     ]
                 }
             )
-        
-        print("Agent:", result["messages"][-1].content)
+        response = result["messages"][-1].content
+
+        if isinstance(response, list):
+            print("Agent:", response[0]["text"])
+        else:
+            print("Agent:", response)
 
     except Exception as e:
         event = create_event(
