@@ -2,6 +2,7 @@ from dataclasses import asdict, dataclass
 from datetime import datetime
 from typing import Any
 from enum import Enum
+from beacon_kafka.producer import send_event
 
 class EventType(Enum):
     USER_MESSAGE = "USER_MESSAGE"
@@ -35,4 +36,8 @@ def log_event(event: Event):
         f"[{event.timestamp}] "
         f"{event.event_type}: "
         f"{event.data}"
+    )
+
+    send_event(
+        event.to_dict()
     )
